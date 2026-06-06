@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarTTech — Marketplace</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/seller.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  </head>
+  <body>
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="logo">CarT<span>Tech</span></div>
+      <div class="spacer"></div>
+      <button
+        class="notif-btn"
+        onclick="toggleNotifPanel()"
+        title="Notifications"
+      >
+        <i class="bi bi-bell"></i>
+        <div class="notif-badge" id="notifDot"></div>
+      </button>
+      <div
+        class="user-avatar"
+        onclick="navigate('profile')"
+        title="My Profile"
+        id="avatarInitials"
+      >
+        SL
+      </div>
+    </header>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      onclick="toggleSidebar()"
+    ></div>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Main</div>
+        <div
+          class="nav-item"
+          data-page="dashboard"
+          onclick="navigate('dashboard')"
+        >
+          <i class="bi bi-grid-1x2-fill"></i> Dashboard
+        </div>
+        <div
+          class="nav-item"
+          data-page="products"
+          onclick="navigate('products')"
+        >
+          <i class="bi bi-grid-3x3-gap-fill"></i> Products
+        </div>
+        <div class="nav-item" data-page="orders" onclick="navigate('orders')">
+          <i class="bi bi-clock-history"></i> Orders
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Account</div>
+        <div class="nav-item" data-page="profile" onclick="navigate('profile')">
+          <i class="bi bi-person-circle"></i> My Profile
+        </div>
+        <div class="nav-item" onclick="Logout()">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- NOTIFICATION PANEL -->
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-panel-head">
+        <span>Notifications</span>
+        <button
+          class="btn-ghost"
+          style="padding: 4px 10px; font-size: 12px"
+          onclick="markAllRead()"
+        >
+          Mark all read
+        </button>
+      </div>
+      <div id="notifList"></div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-wrap" id="toastWrap"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="app">
+      <!-- Pages will be dynamically loaded here -->
+      <div class="text-center mt-5 text-muted">Loading...</div>
+    </main>
+
+    <!-- MODALS (global) -->
+    <!-- Change Password Modal -->
+    <div class="modal-overlay" id="changePwdModal">
+      <div class="modal-box">
+        <div class="modal-head">
+          <span>Change Password</span
+          ><button class="btn-icon" onclick="closeModal('changePwdModal')">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Current Password</label
+            ><input
+              class="form-ctrl"
+              type="password"
+              id="cpCurrent"
+              placeholder="Current password"
+            />
+          </div>
+          <div class="form-group">
+            <label>New Password</label
+            ><input
+              class="form-ctrl"
+              type="password"
+              id="cpNew"
+              placeholder="New password"
+            />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label
+            ><input
+              class="form-ctrl"
+              type="password"
+              id="cpConfirm"
+              placeholder="Confirm new password"
+            />
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn-ghost" onclick="closeModal('changePwdModal')">
+            Cancel
+          </button>
+          <button class="btn-primary-app" onclick="submitChangePwd()">
+            <i class="bi bi-lock-fill"></i> Update Password
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal-overlay" id="forgotPwdModal">
+      <div class="modal-box">
+        <div class="modal-head">
+          <span>Forgot Password</span
+          ><button class="btn-icon" onclick="closeModal('forgotPwdModal')">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 14px;
+              margin-bottom: 16px;
+            "
+          >
+            Enter your registered email address and we'll send you a reset link.
+          </p>
+          <div class="form-group">
+            <label>Email Address</label
+            ><input
+              class="form-ctrl"
+              type="email"
+              id="fpEmail"
+              placeholder="email@example.com"
+            />
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn-ghost" onclick="closeModal('forgotPwdModal')">
+            Cancel
+          </button>
+          <button class="btn-primary-app" onclick="submitForgotPwd()">
+            <i class="bi bi-envelope-fill"></i> Send Reset Link
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+    <!-- Push notification -->
+  <div class="modal fade" id="pushNotificationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content notification-modal">
+        <div class="modal-header border-0 pb-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center pt-0">
+          <div class="notification-icon-wrapper mb-3">
+            <div class="notification-icon">
+              <i class="bi bi-bell-fill"></i>
+            </div>
+          </div>
+          <h3 class="modal-title fw-bold mb-2">Enable Notifications</h3>
+          <p class="text-muted mb-4">
+            Stay updated with your orders, promotions, and important updates!
+          </p>
+          
+          <div class="notification-features mb-4">
+            <div class="feature-item">
+              <i class="bi bi-truck"></i>
+              <span>Order Status Updates</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-tag"></i>
+              <span>Exclusive Offers & Sales</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-chat-dots"></i>
+              <span>Direct Messages from Sellers</span>
+            </div>
+          </div>
+          
+          <div class="d-flex gap-3 justify-content-center">
+            <button class="btn-secondary-app" data-bs-dismiss="modal">
+              <i class="bi bi-x-lg"></i> Not Now
+            </button>
+            <button class="btn-primary-app" id="enableNotificationsBtn">
+              <i class="bi bi-bell-fill"></i> Enable Notifications
+            </button>
+          </div>
+          <p class="small text-muted mt-3 mb-0">
+            You can change this anytime in settings
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Permission Denied Modal -->
+  <div class="modal fade" id="notificationDeniedModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center pt-0">
+          <div class="notification-icon-wrapper mb-3">
+            <div class="notification-icon denied">
+              <i class="bi bi-bell-slash-fill"></i>
+            </div>
+          </div>
+          <h3 class="modal-title fw-bold mb-2">Notifications Blocked</h3>
+          <p class="text-muted mb-4">
+            To receive notifications, please enable them in your browser settings.
+          </p>
+          <div class="alert alert-warning text-start mb-4">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>How to enable:</strong><br>
+            1. Click the lock/info icon in your browser's address bar<br>
+            2. Find "Notifications" and change to "Allow"<br>
+            3. Refresh the page
+          </div>
+          <button class="btn-primary-app" data-bs-dismiss="modal">
+            <i class="bi bi-check-lg"></i> Got it
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Include global script shared.js -->
+    <script type="module" src="../javascript/push-notification.js"></script>
+    <script src="../javascript/shared.js"></script>
+    <script src="../javascript/seller-manage-products.js"></script>
+    <script src="../javascript/seller-dashboard.js"></script>
+    <script src="../javascript/seller-profile.js"></script>
+    <script src="../javascript/seller-orders.js"></script>
+    <script src="../javascript/seller-demandproducts.js"></script>
+    <script src="../javascript/seller-notif.js"></script>
+    <script>
+      $(function () {
+        loadPage("dashboard");
+        renderNotifications();
+      });
+    </script>
+  </body>
+</html>

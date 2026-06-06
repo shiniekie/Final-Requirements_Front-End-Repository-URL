@@ -1,0 +1,84 @@
+<div class="container py-4">
+  <div>
+    <div class="page-title">Seller Dashboard</div>
+    <div class="page-sub">
+      Welcome back! Track your sales and manage your products.
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-xl-4">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: #f0f7ff">
+            <span style="font-size: 22px">📦</span>
+          </div>
+          <div class="stat-val" id="dash-total-products">0</div>
+          <div class="stat-lbl">My Products</div>
+        </div>
+      </div>
+      <div class="col-6 col-xl-4">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: #fef3c7">
+            <span style="font-size: 22px">🛒</span>
+          </div>
+          <div class="stat-val" id="dash-total-sales">0</div>
+          <div class="stat-lbl">Total Sales</div>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3" style="display:none;">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: #d1fae5">
+            <span style="font-size: 22px">💰</span>
+          </div>
+          <div class="stat-val" id="dash-total-revenue">₱0</div>
+          <div class="stat-lbl">Revenue</div>
+        </div>
+      </div>
+      <div class="col-6 col-xl-4">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: #ede9fe">
+            <span style="font-size: 22px">⏳</span>
+          </div>
+          <div class="stat-val" id="dash-pending-orders">0</div>
+          <div class="stat-lbl">Pending Orders</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-7">
+        <div class="card-box">
+          <div class="card-header-bar">
+            Recent Orders
+            <button class="btn-ghost" onclick="navigate('orders')">
+              View all
+            </button>
+          </div>
+          <div style="overflow-x: auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order#</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dash-orders-table">
+                <tr>
+                  <td colspan="5" style="text-align: center">
+                    Loading orders...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <!-- Demand products -->
+        <div class="card-box">
+          <div class="card-header-bar">Demand Products</div>
+          <div class="product-list-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

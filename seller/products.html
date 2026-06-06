@@ -1,0 +1,270 @@
+<style>
+  body {
+    background: #f0f2f5;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .product-card {
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  }
+  .product-img {
+    height: 180px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+  .badge-category {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 30px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+  }
+  .price-tag {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0d6efd;
+  }
+  .stock-badge {
+    font-size: 0.8rem;
+  }
+  .btn-primary-app,
+  .btn-secondary-app {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: 0.2s;
+  }
+  .btn-primary-app {
+    background: #0d6efd;
+    color: white;
+  }
+  .btn-primary-app:hover {
+    background: #0b5ed7;
+    transform: scale(1.02);
+  }
+  .btn-secondary-app {
+    background: #6c757d;
+    color: white;
+  }
+  .btn-secondary-app:hover {
+    background: #5c636a;
+  }
+  .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  .pagination-custom .page-link {
+    border-radius: 30px;
+    margin: 0 4px;
+    color: #0d6efd;
+  }
+  .image-preview {
+    display: inline-block;
+    position: relative;
+    margin: 8px 8px 0 0;
+  }
+  .image-preview img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  .existing-img-item {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+  }
+  .existing-img-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  .remove-existing-img {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid white;
+  }
+  .loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 30px;
+  }
+  .product-actions i {
+    cursor: pointer;
+    margin: 0 5px;
+    transition: 0.2s;
+  }
+  .product-actions i:hover {
+    transform: scale(1.1);
+  }
+  .modal-lg-custom {
+    max-width: 800px;
+  }
+</style>
+
+<div class="container py-4">
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="display-6 fw-bold">
+        <i class="fas fa-boxes me-2 text-primary"></i>Product Manager
+      </h1>
+      <p class="text-muted">
+        Manage your inventory with ease — add, edit, or delete products
+      </p>
+    </div>
+    <button class="btn-primary-app btn-lg" onclick="openAddProductModal()">
+      <i class="fas fa-plus-circle me-1"></i> Add New Product
+    </button>
+  </div>
+
+  <!-- Product Grid with Pagination -->
+  <div id="productsContainer">
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Loading products...</p>
+    </div>
+    <div id="productGrid" class="row g-4"></div>
+    <div
+      id="paginationWrapper"
+      class="d-flex justify-content-center mt-4"
+    ></div>
+  </div>
+</div>
+
+<!-- MODAL (Enhanced from your original, keeps structure + image preview) -->
+<div class="modal fade" id="productModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-lg-custom">
+    <div class="modal-content">
+      <form id="productForm" enctype="multipart/form-data">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title fw-bold" id="productModalTitle">
+            Add Product
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="productId" name="product_id" />
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Product Name *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="productName"
+                name="name"
+                required
+              />
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Category *</label>
+              <select
+                class="form-select"
+                id="productCategory"
+                name="category"
+                required
+              >
+                <option value="Electronics">Electronics</option>
+                <!-- <option value="Clothing">Clothing</option>
+                                <option value="Food">Food</option>
+                                <option value="Home">Home</option>
+                                <option value="Sports">Sports</option> -->
+              </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Price ($) *</label>
+              <input
+                type="number"
+                step="0.01"
+                class="form-control"
+                id="productPrice"
+                name="price"
+                required
+              />
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">Stock Quantity *</label>
+              <input
+                type="number"
+                class="form-control"
+                id="productStock"
+                name="stock"
+                required
+              />
+            </div>
+
+            <div class="col-12 mb-3">
+              <label class="form-label fw-semibold">Description</label>
+              <textarea
+                class="form-control"
+                id="productDescription"
+                name="description"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="col-12 mb-3">
+              <label class="form-label fw-semibold">Product Images</label>
+              <input
+                type="file"
+                class="form-control"
+                id="productImages"
+                name="images[]"
+                multiple
+                accept="image/*"
+              />
+              <small class="text-muted"
+                >You can select multiple images (JPEG, PNG, max 2MB each)</small
+              >
+              <div id="existingImages" class="mt-2"></div>
+              <div id="newImagePreview" class="mt-2 d-flex flex-wrap"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn-secondary-app"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary-app">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

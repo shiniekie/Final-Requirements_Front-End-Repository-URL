@@ -1,0 +1,250 @@
+<div>
+  <div class="page-title">Order History</div>
+  <div class="page-sub">Track your orders and view order details</div>
+
+  <!-- Filters -->
+  <div class="filter-card mb-4">
+    <div class="filter-row">
+      <select
+        id="txnStatusFilter"
+        onchange="renderTransactions()"
+        class="form-control-sm"
+      >
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+
+      <select
+        id="txnSortField"
+        onchange="renderTransactions()"
+        class="form-control-sm"
+      >
+        <option value="created_at">Sort by Date</option>
+        <option value="order_number">Sort by Order #</option>
+        <option value="total">Sort by Amount</option>
+        <option value="status">Sort by Status</option>
+      </select>
+
+      <select
+        id="txnSortDir"
+        onchange="renderTransactions()"
+        class="form-control-sm"
+      >
+        <option value="desc">Newest First</option>
+        <option value="asc">Oldest First</option>
+      </select>
+
+      <div class="search-input-wrap" style="max-width: 250px">
+        <i class="bi bi-search"></i>
+        <input
+          type="text"
+          id="txnSearch"
+          placeholder="Search orders..."
+          oninput="renderTransactions()"
+          class="form-control-sm"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="card-box" style="overflow-x: auto">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th onclick="cycleTxnSort('order_number')">
+            Order ID <i class="bi bi-arrow-down-up"></i>
+          </th>
+          <th onclick="cycleTxnSort('order_number')">
+            Items <i class="bi bi-arrow-down-up"></i>
+          </th>
+          <th onclick="cycleTxnSort('total')">
+            Total Amount <i class="bi bi-arrow-down-up"></i>
+          </th>
+          <th onclick="cycleTxnSort('status')">
+            Status <i class="bi bi-arrow-down-up"></i>
+          </th>
+          <th onclick="cycleTxnSort('created_at')">
+            Date <i class="bi bi-arrow-down-up"></i>
+          </th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="txnTableBody">
+        <tr>
+          <td colspan="6" class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-2">Loading orders...</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div id="txnPagination" class="pagination-wrapper mt-4"></div>
+</div>
+
+<style>
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .orders-table th {
+    padding: 15px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: background 0.2s;
+    background: #f8fafc;
+  }
+
+  .orders-table th:hover {
+    background: #f1f5f9;
+  }
+
+  .orders-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+  }
+
+  .orders-table tr:hover {
+    background: #fafbfc;
+  }
+
+  .badge-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge-pending {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .badge-processing {
+    background: #e0f2fe;
+    color: #0284c7;
+  }
+
+  .badge-paid {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .badge-shipped {
+    background: #ede9fe;
+    color: #7c3aed;
+  }
+
+  .badge-delivered {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .badge-cancelled {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .view-order-btn {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .cancel-order-btn {
+    background: none;
+    border: none;
+    color: #e00000;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .view-order-btn:hover {
+    background: #eff6ff;
+  }
+
+  .cancel-order-btn:hover {
+    background: #eff6ff;
+  }
+
+  .form-control-sm {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+    background: white;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .search-input-wrap i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 14px;
+  }
+
+  .search-input-wrap input {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .orders-table th,
+    .orders-table td {
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .filter-row {
+      flex-direction: column;
+    }
+
+    .search-input-wrap {
+      width: 100%;
+    }
+  }
+</style>

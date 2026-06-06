@@ -1,0 +1,140 @@
+<style>
+  /* Order Updates Styles */
+  .update-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    transition: background 0.2s;
+  }
+
+  .update-item:hover {
+    background: #f8fafc;
+  }
+
+  .update-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 50%;
+    font-size: 18px;
+  }
+
+  .update-content {
+    flex: 1;
+  }
+
+  .update-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .update-message {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+
+  .update-time {
+    font-size: 11px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Table row hover effect */
+  #dash-orders-table tr {
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  #dash-orders-table tr:hover {
+    background: #f8fafc;
+  }
+
+  /* Badge Styles (if not already defined) */
+  .badge-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge-pending {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .badge-processing {
+    background: #e0f2fe;
+    color: #0284c7;
+  }
+
+  .badge-paid {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .badge-shipped {
+    background: #ede9fe;
+    color: #7c3aed;
+  }
+
+  .badge-delivered {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .badge-cancelled {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+</style>
+<div>
+  <div class="page-title">ShopHub > Home</div>
+  <div class="page-sub">
+    Welcome <span id="_customerName">Customer</span>! Here's your shopping
+    activity.
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-7">
+      <div class="card-box">
+        <div class="card-header-bar">
+          My Recent Orders
+          <button class="btn-ghost" onclick="navigate('orders')">
+            View all
+          </button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="dash-orders-table"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card-box">
+        <div class="card-header-bar">Order Status Updates</div>
+        <div id="order-updates" style="padding: 4px 0"></div>
+      </div>
+    </div>
+  </div>
+</div>

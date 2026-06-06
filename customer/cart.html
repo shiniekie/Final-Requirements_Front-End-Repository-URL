@@ -1,0 +1,482 @@
+    <style>
+        /* Cart Layout */
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            margin-top: 24px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Cart Items Section */
+        .cart-items-section {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .cart-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #fafbfc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .select-all-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .select-all-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .select-all-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        .cart-header-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1e293b;
+        }
+
+        .cart-header-count {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .cart-items-container {
+            min-height: 300px;
+        }
+
+        /* Cart Item */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            gap: 16px;
+        }
+
+        .cart-item:hover {
+            background: #fafbfc;
+        }
+
+        .cart-item-select {
+            flex-shrink: 0;
+        }
+
+        .cart-item-select input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 2;
+        }
+
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .cart-item-price {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .quantity-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .quantity-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .cart-item-total {
+            font-weight: 700;
+            font-size: 16px;
+            color: #3b82f6;
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .cart-item-remove:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .summary-value {
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 16px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .total-label {
+            font-weight: 700;
+            font-size: 16px;
+            color: #1e293b;
+        }
+
+        .total-amount {
+            font-weight: 800;
+            font-size: 22px;
+            color: #3b82f6;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .continue-shopping-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .continue-shopping-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 24px;
+        }
+
+        .empty-cart-icon {
+            font-size: 64px;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+
+        .empty-cart h5 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .empty-cart p {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .empty-cart button {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Selected badge */
+        .selected-summary-badge {
+            background: #eff6ff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #1e40af;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .summary-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .cart-item-info {
+                width: 100%;
+            }
+
+            .cart-item-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .cart-item-total {
+                text-align: left;
+                width: 100%;
+            }
+
+            .cart-item-quantity {
+                justify-content: flex-start;
+            }
+
+            .cart-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .swal2-popup {
+            padding: 1.5rem !important;
+        }
+        .swal2-html-container {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+        }
+        /* Remove scrollbar from modal content */
+        .checkout-modal-content {
+            overflow: visible !important;
+        }
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1e293b;
+            text-align: left;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 13px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #fff;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .swal2-actions {
+            margin-top: 8px !important;
+        }
+    </style>
+<div>
+    <div class="page-title">Shopping Cart</div>
+    <div class="page-sub">Review your items before checkout</div>
+
+    <div class="cart-layout">
+        <div class="cart-items-section">
+            <div class="cart-header">
+                <div class="select-all-area">
+                    <label class="select-all-checkbox">
+                        <input type="checkbox" id="selectAllCheckbox"> Select all items
+                    </label>
+                    <span class="cart-header-count" id="cartItemCount"></span>
+                </div>
+                <span class="cart-header-title">Your Items</span>
+            </div>
+            <div id="cartItems" class="cart-items-container"></div>
+        </div>
+
+        <div class="cart-summary-section">
+            <div class="summary-card">
+                <div class="summary-title">Order Summary</div>
+                <div id="selectedItemsBadge" class="selected-summary-badge">No items selected</div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal (selected items)</span>
+                    <span class="summary-value" id="cartSubtotal">₱0</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Shipping</span>
+                    <span class="summary-value" id="cartShipping">₱0</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">VAT (12%)</span>
+                    <span class="summary-value" id="cartVAT">₱0</span>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-total">
+                    <span class="total-label">Total</span>
+                    <span class="total-amount" id="cartTotal">₱0</span>
+                </div>
+
+                <button class="checkout-btn" id="checkoutBtn" onclick="proceedToCheckoutSelected()">
+                    <i class="bi bi-lock-fill"></i> Checkout Selected (<span id="selectedCount">0</span>)
+                </button>
+
+                <button class="continue-shopping-btn" onclick="navigate('products')">
+                    <i class="bi bi-arrow-left"></i> Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

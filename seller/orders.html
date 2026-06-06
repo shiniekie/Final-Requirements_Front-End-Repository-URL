@@ -1,0 +1,52 @@
+<!-- seller-orders.html -->
+<div>
+  <div class="page-title">Orders</div>
+  <div class="page-sub">
+    Track and manage customer orders for your products.
+  </div>
+
+  <div class="card-box">
+    <div class="filter-row">
+      <div class="search-input-wrap" style="max-width: 240px">
+        <i class="bi bi-search"></i>
+        <input
+          class="form-ctrl"
+          type="text"
+          id="sellerOrderSearch"
+          placeholder="Search orders…"
+          oninput="filterSellerOrders()"
+        />
+      </div>
+      <select
+        class="form-ctrl"
+        style="width: auto"
+        id="sellerOrderStatusFilter"
+        onchange="filterSellerOrders()"
+      >
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <button class="btn-ghost" onclick="exportSellerSales()">
+        <i class="bi bi-download"></i> Export CSV
+      </button>
+    </div>
+    <div style="overflow-x: auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="sellerOrdersTableBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination-bar" id="sellerOrdersPagination"></div>
+  </div>
+</div>

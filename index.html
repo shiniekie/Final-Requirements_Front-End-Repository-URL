@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarTTech — Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/login.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <div class="deco-dot" style="top: 180px; left: 40px"></div>
+      <div
+        class="deco-dot"
+        style="
+          top: 320px;
+          right: 200px;
+          width: 6px;
+          height: 6px;
+          background: rgba(255, 255, 255, 0.3);
+        "
+      ></div>
+      <div
+        class="deco-dot"
+        style="
+          bottom: 160px;
+          right: 100px;
+          width: 14px;
+          height: 14px;
+          background: rgba(233, 69, 96, 0.4);
+        "
+      ></div>
+
+      <div class="brand">CarT<span>Tech</span></div>
+
+      <div class="panel-headline">
+        Your <em>marketplace</em><br />starts here.
+      </div>
+      <p class="panel-sub">
+        Manage products, track orders, and grow your business — all from one
+        powerful dashboard.
+      </p>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="form-card">
+        <div class="form-title">Welcome back</div>
+        <div class="form-subtitle">
+          Don't have an account? <a href="register.html">Create one →</a>
+        </div>
+
+        <div class="alert-msg alert-error" id="errorMsg">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span id="errorText">Invalid email or password.</span>
+        </div>
+        <div class="alert-msg alert-success" id="successMsg">
+          <i class="bi bi-check-circle-fill"></i>
+          <span id="successText">Login successful! Redirecting…</span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <i class="bi bi-envelope icon"></i>
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <i class="bi bi-lock icon"></i>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+            <button
+              class="toggle-pwd"
+              type="button"
+              onclick="togglePwd()"
+              id="eyeBtn"
+              title="Show/hide password"
+            >
+              <i class="bi bi-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="row-between">
+          <a href="#" class="forgot-link" onclick="showForgot(event)"
+            >Forgot password?</a
+          >
+        </div>
+
+        <button class="btn-login" onclick="doLogin()" id="signIn">
+          <i class="bi bi-box-arrow-in-right"></i> Sign In
+        </button>
+      </div>
+    </div>
+
+    <!-- Forgot Password inline modal -->
+    <div
+      id="forgotOverlay"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      "
+    >
+      <div
+        style="
+          background: #fff;
+          border-radius: 16px;
+          width: 100%;
+          max-width: 400px;
+          padding: 32px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        "
+      >
+        <div
+          style="
+            font-family: var(--font-head);
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 6px;
+          "
+        >
+          Reset Password
+        </div>
+        <p style="font-size: 14px; color: #6b7280; margin-bottom: 20px">
+          Enter your email and we'll send a reset link.
+        </p>
+        <div class="input-wrap" style="margin-bottom: 16px">
+          <i class="bi bi-envelope icon"></i>
+          <input type="email" id="fpEmail" placeholder="your@email.com" />
+        </div>
+        <div style="display: flex; gap: 10px">
+          <button
+            onclick="closeForgot()"
+            style="
+              flex: 1;
+              padding: 11px;
+              border: 1.5px solid var(--border);
+              border-radius: 10px;
+              background: none;
+              cursor: pointer;
+              font-family: var(--font-body);
+              font-size: 14px;
+            "
+          >
+            Cancel
+          </button>
+          <button
+            id="send-reset-link"
+            onclick="sendReset()"
+            style="
+              flex: 1;
+              padding: 11px;
+              background: var(--primary);
+              color: #fff;
+              border: none;
+              border-radius: 10px;
+              cursor: pointer;
+              font-family: var(--font-head);
+              font-weight: 700;
+              font-size: 14px;
+            "
+          >
+            Send Link
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="javascript/shared.js"></script>
+    <script src="javascript/login.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+      import {
+        getMessaging,
+        getToken,
+        onMessage,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDWG_iActm-R7r7g_SGRGVhYLOs6Fznhyc",
+        authDomain: "ecommerce-a95d1.firebaseapp.com",
+        projectId: "ecommerce-a95d1",
+        storageBucket: "ecommerce-a95d1.firebasestorage.app",
+        messagingSenderId: "1055002599238",
+        appId: "1:1055002599238:web:a887c33b526b8c2faf4f47",
+        measurementId: "G-ZHS0VWTQ72"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const messaging = getMessaging(app);
+
+      if (Notification.permission === "default") {
+        notif();
+      }
+
+      function notif() {
+        Notification.requestPermission().then(async function (permission) {
+          if (permission !== "granted") {
+            alert("Permission denied");
+            return;
+          }
+
+          try {
+            const token = await getToken(messaging, {
+              vapidKey:
+                "BCi12a7CGALkgieBd-TUfU_OxXtzPL5tWbPi7Bh6zd9zbV3vA6I8uyds87UEId_st_rdQLp4I6jpnmq-bNRYbF8",
+            });
+            localStorage.setItem("fcm_token", token);
+          } catch (err) {
+            console.error("Token error:", err);
+          }
+        });
+      }
+      onMessage(messaging, (payload) => {
+        console.log("Foreground message:", payload);
+
+        const title = payload.data?.title;
+        const body = payload.data?.body;
+
+        if (Notification.permission === "granted") {
+          new Notification(title, {
+            body: body,
+            icon: "/icon.png",
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
